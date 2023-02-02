@@ -12,7 +12,7 @@ INSERT INTO Categorie(Code, Libelle, Description) VALUES
 
 INSERT INTO Produit (Reference, Nom, Fournisseur, Categorie_Code, Quantite_Par_Unite, Prix_Unitaire, Unites_Commandees, Unites_En_Stock, Niveau_De_Reappro, Indisponible) VALUES 
     ( default, 'Chai', 1, 1, '10 boîtes x 20 sacs', 90.00, 39, 0, 10, FALSE), -- Référence : 1
-	( default, 'Chang', 1, 1, '24 bouteilles (1 litre)', 95.00, 17, 40, 25, FALSE),
+	( default, 'Chang', 1, 1, '24 bouteilles (1 litre)', 95.00, 250, 40, 25, FALSE),
 	( default, 'Aniseed Syrup', 1, 2, '12 bouteilles (550 ml)', 50.00, 13, 70, 25, FALSE),
 	( default, 'Chef Anton''s Cajun Seasoning', 2, 2, '48 pots (6 onces)', 110.00, 53, 0, 0, FALSE),
 	( default, 'Chef Anton''s Gumbo Mix', 2, 2, '36 boîtes', 106.00, 0, 0, 0, TRUE),

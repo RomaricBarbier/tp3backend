@@ -28,13 +28,48 @@ class LigneServiceTest {
     void onPeutAjouterDesLignesSiPasLivre() {
         var ligne = service.ajouterLigne(NUMERO_COMMANDE_PAS_LIVREE, REFERENCE_PRODUIT_DISPONIBLE_1, 1);
         assertNotNull(ligne.getId(),
-        "La ligne doit être enregistrée, sa clé générée"); 
+                "La ligne doit être enregistrée, sa clé générée");
     }
 
     @Test
     void laQuantiteEstPositive() {
-        assertThrows(ConstraintViolationException.class, 
-            () -> service.ajouterLigne(NUMERO_COMMANDE_PAS_LIVREE, REFERENCE_PRODUIT_DISPONIBLE_1, 0),
-            "La quantite d'une ligne doit être positive");
+            var ligne = service.ajouterLigne(NUMERO_COMMANDE_PAS_LIVREE, REFERENCE_PRODUIT_DISPONIBLE_1, 1);
+            assertThrows(ConstraintViolationException.class,
+                    () -> service.ajouterLigne(NUMERO_COMMANDE_PAS_LIVREE, REFERENCE_PRODUIT_DISPONIBLE_1, 0),
+                        "Ligne doit être positive");
     }
+
+    @Test
+    void testLaCommandeDejaEnvoyee(){
+        assertThrows(IllegalStateException.class, () -> service.ajouterLigne(99999,96,20), "La commande est déjà envoyée.");
+    }
+    @Test
+    void testLaCommandeNExistePas(){
+
+        assertThrows(Exception.class,
+                () -> service.ajouterLigne(99, 98, 20));
+        () -> service.ajouterLigne(99, 98, 20),"Commande inexistante?");
+    }
+
+    @Test
+    void testQuandProduitNExistePas(){
+        assertThrows(Exception.class,
+                () -> service.ajouterLigne(99999, 4, 20));
+    }
+    @Test
+    void testQuandLaCommandeDejaEnvoyee(){
+        assertThrows(Exception.class,
+                () -> service.ajouterLigne(99999, 98, 15));
+    }
+
+    @Test
+    void testQuantiteEnStockSuffisante() {
+        assertThrows(IllegalArgumentException.class,
+                () -> service.ajouterLigne(99998, 98, 150));
+    }
+       @Test
+        void testQuantiteEnStockPASSuffisante(){
+            assertThrows(Exception.class,
+                    () -> service.ajouterLigne(99998, 98, 290));
+        }
 }

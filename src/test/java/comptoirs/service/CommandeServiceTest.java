@@ -1,13 +1,14 @@
 package comptoirs.service;
 
+import comptoirs.entity.Commande;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
  // Ce test est basé sur le jeu de données dans "test_data.sql"
@@ -40,5 +41,18 @@ class CommandeServiceTest {
         var commande = service.creerCommande(ID_PETIT_CLIENT);
         assertEquals(VILLE_PETIT_CLIENT, commande.getAdresseLivraison().getVille(),
             "On doit recopier l'adresse du client dans l'adresse de livraison");
-    }   
+    }
+    @Test
+    void testEnregistrementdesDatesdExpeditions() {
+        var commande = service.creerCommande(ID_GROS_CLIENT);
+        // cette commande n'est pas encore livrée
+        Commande CLivree = service.enregistreExpedition(commande.getNumero());
+        // On expédie la commande aujourd'hui
+        //On vérifie ici que la date a bien été enregistrée
+        assertEquals(CLivree.getEnvoyeele(), LocalDate.now(), "L'expédition n'a pas eu lieu, erreur dans l'implémentation?");
+    }
+    @Test
+    void testEnvoyerCommandeDejaLivree(){
+        assertThrows(IllegalStateException.class, () -> service.enregistreExpedition(99999), "La commande doit être déjà envoyée.");
+    }
 }
