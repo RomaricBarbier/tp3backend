@@ -40,19 +40,19 @@ class CommandeServiceTest {
     void testCreerCommandeInitialiseAdresseLivraison() {
         var commande = service.creerCommande(ID_PETIT_CLIENT);
         assertEquals(VILLE_PETIT_CLIENT, commande.getAdresseLivraison().getVille(),
-            "On doit recopier l'adresse du client dans l'adresse de livraison");
+            "Recopier l'adresse du client dans l'adresse de livraison");
     }
     @Test
     void testEnregistrementdesDatesdExpeditions() {
         var commande = service.creerCommande(ID_GROS_CLIENT);
         // cette commande n'est pas encore livrée
-        Commande CLivree = service.enregistreExpedition(commande.getNumero());
+        Commande CLivree = service.enregistreExpédition(commande.getNumero());
         // On expédie la commande aujourd'hui
         //On vérifie ici que la date a bien été enregistrée
         assertEquals(CLivree.getEnvoyeele(), LocalDate.now(), "L'expédition n'a pas eu lieu, erreur dans l'implémentation?");
     }
     @Test
     void testEnvoyerCommandeDejaLivree(){
-        assertThrows(IllegalStateException.class, () -> service.enregistreExpedition(99999), "La commande doit être déjà envoyée.");
+        assertThrows(IllegalStateException.class, () -> service.enregistreExpédition(99999), "La commande doit être déjà envoyée.");
     }
 }
